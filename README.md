@@ -1,3 +1,9 @@
+This tutorial is a modified version of the original developed by Kelsey Hightower.
+Then reworked by Mumshad manambeth on VirtualBox using Vagrant.
+& 
+In this tutorial, We will look into the Kubernetes the Hard Way from Scratch in VMware Workstation on Ubuntu-16.04.6 LTS.
+
+
 # Kubernetes The Hard Way
 
 This tutorial walks you through setting up Kubernetes the hard way. This guide is not for people looking for a fully automated command to bring up a Kubernetes cluster. If that's you then check out [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine), or the [Getting Started Guides](https://kubernetes.io/docs/setup).
@@ -17,7 +23,7 @@ The target audience for this tutorial is someone planning to support a productio
 
 ## Cluster Details
 
-Kubernetes The Hard Way guides you through bootstrapping a highly available Kubernetes cluster with end-to-end encryption between components and RBAC authentication.
+Kubernetes The Hard Way guides you through bootstrapping Kubernetes cluster with end-to-end encryption between components and RBAC authentication.
 
 * [kubernetes](https://github.com/kubernetes/kubernetes) 1.15.3
 * [containerd](https://github.com/containerd/containerd) 1.2.9
@@ -27,7 +33,7 @@ Kubernetes The Hard Way guides you through bootstrapping a highly available Kube
 
 ## Labs
 
-This tutorial assumes you have access to the [Google Cloud Platform](https://cloud.google.com). While GCP is used for basic infrastructure requirements the lessons learned in this tutorial can be applied to other platforms.
+This tutorial assumes that you have some basic knowledge about VMware Workstation.
 
 * [Prerequisites](docs/01-prerequisites.md)
 * [Installing the Client Tools](docs/02-client-tools.md)
