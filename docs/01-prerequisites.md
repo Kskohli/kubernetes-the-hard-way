@@ -11,7 +11,7 @@ I have choosen NAT(Network Address Translation) so that I can use Internet on Ub
 
 ## VMware Workstation or Fusion for mac
 
-You need to have some basic knowledge of networking in VMware Workstation using [Network Editor ].  (https://pubs.vmware.com/workstation-11/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-D9B0A52D-38A2-45D7-A9EB-987ACE77F93C.html)
+You need to have some basic knowledge of networking in VMware Workstation using [Network Editor ](https://pubs.vmware.com/workstation-11/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-D9B0A52D-38A2-45D7-A9EB-987ACE77F93C.html).
 You might need a License for VMware Workstation or Fusion for mac. 
 
 
