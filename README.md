@@ -4,7 +4,7 @@
 
 # Kubernetes The Hard Way
 
-In this tutorial, We will look into the Kubernetes the Hard Way from Scratch in VMware Workstation on Ubuntu-16.04.6 LTS.
+In this tutorial, We will look into the Kubernetes the Hard Way from Scratch in VMware Workstation using Ubuntu-16.04.6 LTS as base OS for Kubernetes.
 
 Kubernetes The Hard Way is optimized for learning, which means taking the long route to ensure you understand each task required to bootstrap a Kubernetes cluster.
 
