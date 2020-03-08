@@ -1,12 +1,10 @@
 > This tutorial is a modified version of the original developed by Kelsey Hightower.
 > Then reworked by Mumshad manambeth on VirtualBox using Vagrant.
 
-In this tutorial, We will look into the Kubernetes the Hard Way from Scratch in VMware Workstation on Ubuntu-16.04.6 LTS.
-
 
 # Kubernetes The Hard Way
 
-This tutorial walks you through setting up Kubernetes the hard way. This guide is not for people looking for a fully automated command to bring up a Kubernetes cluster. If that's you then check out [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine), or the [Getting Started Guides](https://kubernetes.io/docs/setup).
+In this tutorial, We will look into the Kubernetes the Hard Way from Scratch in VMware Workstation on Ubuntu-16.04.6 LTS.
 
 Kubernetes The Hard Way is optimized for learning, which means taking the long route to ensure you understand each task required to bootstrap a Kubernetes cluster.
 
@@ -15,7 +13,7 @@ Kubernetes The Hard Way is optimized for learning, which means taking the long r
 
 ## Target Audience
 
-The target audience for this tutorial is someone planning to support a production Kubernetes cluster and wants to understand how everything fits together.
+The target audience for this tutorial is someone planning to learn how to deploy Kubernetes from scratch in their HomeLab or Laptop.
 
 ## Cluster Details
 
