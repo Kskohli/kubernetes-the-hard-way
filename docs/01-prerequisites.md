@@ -3,14 +3,15 @@
 
 ## VM Hardware Requirements
 Created 3 VMs for this simple deployment.
-VM1 named master001, 2cpu, 2gb memory, 20gb hdd, 
-VM2 named worker001  1cpu, 1gb memory, 20gb hdd,
-VM3 named worker002  1cpu, 1gb memory, 20gb hdd,
+</br> VM1 named master001, CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
+</br> VM2 named worker001  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
+</br> VM3 named worker002  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
 
+I have choosen NAT(Network Address Translation) so that I can use Internet on Ubuntu Virtual Machines as well as I connect to them using SSH from the same machine where workstation is installed.
 
 ## VMware Workstation or Fusion for mac
 
-You need to have some basic knowledge of networking in VMware Workstation using Network Editor.
+You need to have some basic knowledge of networking in VMware Workstation using [Network Editor ](https://pubs.vmware.com/workstation-11/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-D9B0A52D-38A2-45D7-A9EB-987ACE77F93C.html)
 You might need a License for VMware Workstation or Fusion for mac. 
 
 
