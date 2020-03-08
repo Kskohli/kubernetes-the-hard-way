@@ -55,7 +55,7 @@ iface ens33 inet static
         dns-nameservers 8.8.8.8
 ```
 
-It has to be performed on VM1 **worker001**
+It has to be performed on VM2 **worker001**
 
 ```
 sudo vim /etc/network/interfaces
@@ -79,7 +79,7 @@ iface ens33 inet static
         # dns-* options are implemented by the resolvconf package, if installed
         dns-nameservers 8.8.8.8
 ```
-It has to be performed on VM1 **worker002**
+It has to be performed on VM3 **worker002**
 
 ```
 sudo vim /etc/network/interfaces
