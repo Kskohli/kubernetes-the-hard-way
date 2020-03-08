@@ -2,43 +2,30 @@
 
 
 ## VM Hardware Requirements
-Created 3 VMs for this simple deployment.
-</br> VM1 named master001, CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
-</br> VM2 named worker001  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
-</br> VM3 named worker002  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
-
-I choose NAT(Network Address Translation) so that I can use Internet on Ubuntu Virtual Machines as well as I connect to them using SSH from the same machine where workstation is installed.
-
-## VM Operating System Requirements
-[Download](http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso) the ISO for Ubuntu 16.04.6 LTS.
-</br>Create it with above mentioned configuration & Install the OS with following settings:-
-* You need to disable any updates from CD as we will be using internet to update & upgrade the packages.
-
-```
-nano /etc/apt/sources.list  
-```
-and comment(#) on line number 1. Where cdrom is mentioned.
-
-* It needs SWAP to be disabled for which is better explained by [@FrankDenneman in his post](https://frankdenneman.nl/2018/11/15/kubernetes-swap-and-the-vmware-balloon-driver/).
-You can check the status of Swap File/Partition in OS by running **free -h** command and disable post that.
-
-```
-swapoff -a
-
-vim /etc/fstab  
-```
-and comment(#) on line number 10, where swapfile/swap partition/swap word is mentioned. 
-
-
-*
-*
-*
+8GB of RAM, 60GB of Disk space and an Internet Connection.
 
 
 ## VMware Workstation or Fusion for mac
 
+Download and Install Workstation on any of the supported platforms:-
+* Windows
+* Ubuntu
+* MacOs(Fusion)
+
 You need to have some basic knowledge of networking in VMware Workstation using [Network Editor ](https://pubs.vmware.com/workstation-11/index.jsp?topic=%2Fcom.vmware.ws.using.doc%2FGUID-D9B0A52D-38A2-45D7-A9EB-987ACE77F93C.html).
-You might need a License for VMware Workstation or Fusion for mac. 
+**You might need a License for VMware Workstation or Fusion for mac.**
+
+
+## A Recommended Terminal Utility
+It will be good you have a multi-terminal utility such as [hyper.is](https://hyper.is/) which I have used or tmux.
+
+
+
+
+
+
+
+
 
 
 
