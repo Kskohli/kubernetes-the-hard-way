@@ -1,14 +1,19 @@
 # Prerequisites
 
-## Google Cloud Platform
 
-This tutorial leverages the [Google Cloud Platform](https://cloud.google.com/) to streamline provisioning of the compute infrastructure required to bootstrap a Kubernetes cluster from the ground up. [Sign up](https://cloud.google.com/free/) for $300 in free credits.
+## VM Hardware Requirements
+Created 3 VMs for this simple deployment.
+VM1 named master001, 2cpu, 2gb memory, 20gb hdd, 
+VM2 named worker001  1cpu, 1gb memory, 20gb hdd,
+VM3 named worker002  1cpu, 1gb memory, 20gb hdd,
 
-[Estimated cost](https://cloud.google.com/products/calculator/#id=55663256-c384-449c-9306-e39893e23afb) to run this tutorial: $0.23 per hour ($5.46 per day).
 
-> The compute resources required for this tutorial exceed the Google Cloud Platform free tier.
+## VMware Workstation or Fusion for mac
 
-## Google Cloud Platform SDK
+You need to have some basic knowledge of networking in VMware Workstation using Network Editor.
+You might need a License for VMware Workstation or Fusion for mac. 
+
+
 
 ### Install the Google Cloud SDK
 
