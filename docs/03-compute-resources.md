@@ -1,14 +1,41 @@
 # Provisioning Compute Resources
 
-Kubernetes requires a set of machines to host the Kubernetes control plane and the worker nodes where containers are ultimately run. In this lab you will provision the compute resources required for running a secure and highly available Kubernetes cluster across a single [compute zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones).
+Kubernetes requires a set of machines to host the Kubernetes control plane and the worker nodes where containers are ultimately run. In this lab you will provision the compute resources required for running a secure Kubernetes cluster on VMware Workstation.
 
-> Ensure a default compute zone and region have been set as described in the [Prerequisites](01-prerequisites.md#set-a-default-compute-region-and-zone) lab.
+Created 3 VMs for this simple deployment.
+</br> VM1 named master001, CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
+</br> VM2 named worker001  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
+</br> VM3 named worker002  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
 
+I choose NAT(Network Address Translation) so that I can use Internet on Ubuntu Virtual Machines as well as I connect to them using SSH from the same machine where workstation is installed.
+
+
+## VM Operating System Requirements
+[Download](http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso) the ISO for Ubuntu 16.04.6 LTS.
+</br>Create it with above mentioned configuration & Install the OS with following settings:-
+* You need to disable any updates from CD as we will be using internet to update & upgrade the packages.
+```
+nano /etc/apt/sources.list  
+```
+and comment(#) on line number 1. Where cdrom is mentioned.
+
+* It needs SWAP to be disabled for which is better explained by [@FrankDenneman in his post](https://frankdenneman.nl/2018/11/15/kubernetes-swap-and-the-vmware-balloon-driver/).
+You can check the status of Swap File/Partition in OS by running **free -h** command and disable post that.
+
+```
+swapoff -a
+
+vim /etc/fstab  
+```
+and comment(#) on line number 10, where swapfile/swap partition/swap word is mentioned. 
+
+* After this we need static IP for Our Machines, it could be done at the time of installation or could be done by editing a file:-
+VM1
+
+*
+*
 ## Networking
 
-The Kubernetes [networking model](https://kubernetes.io/docs/concepts/cluster-administration/networking/#kubernetes-model) assumes a flat network in which containers and nodes can communicate with each other. In cases where this is not desired [network policies](https://kubernetes.io/docs/concepts/services-networking/network-policies/) can limit how groups of containers are allowed to communicate with each other and external network endpoints.
-
-> Setting up network policies is out of scope for this tutorial.
 
 ### Virtual Private Cloud Network
 
@@ -150,13 +177,10 @@ gcloud compute instances list
 > output
 
 ```
-NAME          ZONE        MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
-controller-0  us-west1-c  n1-standard-1               10.240.0.10  XX.XXX.XXX.XXX  RUNNING
-controller-1  us-west1-c  n1-standard-1               10.240.0.11  XX.XXX.X.XX     RUNNING
-controller-2  us-west1-c  n1-standard-1               10.240.0.12  XX.XXX.XXX.XX   RUNNING
-worker-0      us-west1-c  n1-standard-1               10.240.0.20  XXX.XXX.XXX.XX  RUNNING
-worker-1      us-west1-c  n1-standard-1               10.240.0.21  XX.XXX.XX.XXX   RUNNING
-worker-2      us-west1-c  n1-standard-1               10.240.0.22  XXX.XXX.XX.XX   RUNNING
+NAME           INTERNAL_IP     
+master001
+worker001      10.240.0.20  
+worker002      10.240.0.21   
 ```
 
 ## Configuring SSH Access
