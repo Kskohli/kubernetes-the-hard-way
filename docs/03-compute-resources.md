@@ -4,8 +4,8 @@ Kubernetes requires a set of machines to host the Kubernetes control plane and t
 
 Created 3 VMs for this simple deployment.
 </br> VM1 named master001, CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
-</br> VM2 named worker001  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
-</br> VM3 named worker002  CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
+</br> VM2 named worker001  CPU-1, MEMORY-1GB, HDD-20GB, NETWORK-NAT
+</br> VM3 named worker002  CPU-1, MEMORY-1GB, HDD-20GB, NETWORK-NAT
 
 I choose NAT(Network Address Translation) so that I can use Internet on Ubuntu Virtual Machines as well as I connect to them using SSH from the same machine where workstation is installed.
 
@@ -30,7 +30,84 @@ vim /etc/fstab
 and comment(#) on line number 10, where swapfile/swap partition/swap word is mentioned. 
 
 * After this we need static IP for Our Machines, it could be done at the time of installation or could be done by editing a file:-
-VM1
+It has to be performed on VM1 **master001**
+
+```
+sudo vim /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto ens33
+iface ens33 inet static
+        address 182.20.10.200
+        netmask 255.255.255.0
+        network 182.20.10.0
+        broadcast 182.20.10.255
+        gateway 182.20.10.2
+        # dns-* options are implemented by the resolvconf package, if installed
+        dns-nameservers 8.8.8.8
+```
+
+It has to be performed on VM1 **worker001**
+
+```
+sudo vim /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto ens33
+iface ens33 inet static
+        address 182.20.10.201
+        netmask 255.255.255.0
+        network 182.20.10.0
+        broadcast 182.20.10.255
+        gateway 182.20.10.2
+        # dns-* options are implemented by the resolvconf package, if installed
+        dns-nameservers 8.8.8.8
+```
+It has to be performed on VM1 **worker002**
+
+```
+sudo vim /etc/network/interfaces
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto ens33
+iface ens33 inet static
+        address 182.20.10.202
+        netmask 255.255.255.0
+        network 182.20.10.0
+        broadcast 182.20.10.255
+        gateway 182.20.10.2
+        # dns-* options are implemented by the resolvconf package, if installed
+        dns-nameservers 8.8.8.8
+```
+
+
+
+
+
 
 *
 *
