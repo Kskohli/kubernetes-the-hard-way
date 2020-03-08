@@ -1,6 +1,6 @@
 > This tutorial is a modified version of the original developed by Kelsey Hightower.
 > Then reworked by Mumshad manambeth on VirtualBox using Vagrant.
-& 
+
 In this tutorial, We will look into the Kubernetes the Hard Way from Scratch in VMware Workstation on Ubuntu-16.04.6 LTS.
 
 
