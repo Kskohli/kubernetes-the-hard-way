@@ -16,13 +16,12 @@ kubectl create secret generic kubernetes-the-hard-way \
 Print a hexdump of the `kubernetes-the-hard-way` secret stored in etcd:
 
 ```
-gcloud compute ssh controller-0 \
-  --command "sudo ETCDCTL_API=3 etcdctl get \
+sudo ETCDCTL_API=3 etcdctl get \
   --endpoints=https://127.0.0.1:2379 \
-  --cacert=/etc/etcd/ca.pem \
-  --cert=/etc/etcd/kubernetes.pem \
-  --key=/etc/etcd/kubernetes-key.pem\
-  /registry/secrets/default/kubernetes-the-hard-way | hexdump -C"
+  --cacert=/etc/etcd/ca.crt \
+  --cert=/etc/etcd/etcd-server.crt \
+  --key=/etc/etcd/etcd-server.key\
+  /registry/secrets/default/kubernetes-the-hard-way | hexdump -C
 ```
 
 > output
@@ -32,20 +31,24 @@ gcloud compute ssh controller-0 \
 00000010  73 2f 64 65 66 61 75 6c  74 2f 6b 75 62 65 72 6e  |s/default/kubern|
 00000020  65 74 65 73 2d 74 68 65  2d 68 61 72 64 2d 77 61  |etes-the-hard-wa|
 00000030  79 0a 6b 38 73 3a 65 6e  63 3a 61 65 73 63 62 63  |y.k8s:enc:aescbc|
-00000040  3a 76 31 3a 6b 65 79 31  3a 44 ac 6e ac 11 2f 28  |:v1:key1:D.n../(|
-00000050  02 46 3d ad 9d cd 68 be  e4 cc 63 ae 13 e4 99 e8  |.F=...h...c.....|
-00000060  6e 55 a0 fd 9d 33 7a b1  17 6b 20 19 23 dc 3e 67  |nU...3z..k .#.>g|
-00000070  c9 6c 47 fa 78 8b 4d 28  cd d1 71 25 e9 29 ec 88  |.lG.x.M(..q%.)..|
-00000080  7f c9 76 b6 31 63 6e ea  ac c5 e4 2f 32 d7 a6 94  |..v.1cn..../2...|
-00000090  3c 3d 97 29 40 5a ee e1  ef d6 b2 17 01 75 a4 a3  |<=.)@Z.......u..|
-000000a0  e2 c2 70 5b 77 1a 0b ec  71 c3 87 7a 1f 68 73 03  |..p[w...q..z.hs.|
-000000b0  67 70 5e ba 5e 65 ff 6f  0c 40 5a f9 2a bd d6 0e  |gp^.^e.o.@Z.*...|
-000000c0  44 8d 62 21 1a 30 4f 43  b8 03 69 52 c0 b7 2e 16  |D.b!.0OC..iR....|
-000000d0  14 a5 91 21 29 fa 6e 03  47 e2 06 25 45 7c 4f 8f  |...!).n.G..%E|O.|
-000000e0  6e bb 9d 3b e9 e5 2d 9e  3e 0a                    |n..;..-.>.|
+00000040  3a 76 31 3a 6b 65 79 31  3a 78 cd 3c 33 3a 60 d7  |:v1:key1:x.<3:`.|
+00000050  4c 1e 4c f1 97 ce 75 6f  3d a7 f1 4b 59 e8 f9 2a  |L.L...uo=..KY..*|
+00000060  17 77 20 14 ab 73 85 63  12 12 a4 8d 3c 6e 04 4c  |.w ..s.c....<n.L|
+00000070  e0 84 6f 10 7b 3a 13 10  d0 cd df 81 d0 08 be fa  |..o.{:..........|
+00000080  ea 74 ca 53 b3 b2 90 95  e1 ba bc 3f 88 76 db 8e  |.t.S.......?.v..|
+00000090  e1 1e 17 ea 0d b0 3b e3  e3 df eb 2e 57 76 1d d0  |......;.....Wv..|
+000000a0  25 ca ee 5b f2 27 c7 f2  8e 58 93 e9 28 45 8f 3a  |%..[.'...X..(E.:|
+000000b0  e7 97 bf 74 86 72 fd e7  f1 bb fc f7 2d 10 4d c3  |...t.r......-.M.|
+000000c0  70 1d 08 75 c3 7c 14 55  18 9d 68 73 ec e3 41 3a  |p..u.|.U..hs..A:|
+000000d0  dc 41 8a 4b 9e 33 d9 3d  c0 04 60 10 cf ad a4 88  |.A.K.3.=..`.....|
+000000e0  7b e7 93 3f 7a e8 1b 22  bf 0a                    |{..?z.."..|
+000000ea
 ```
 
 The etcd key should be prefixed with `k8s:enc:aescbc:v1:key1`, which indicates the `aescbc` provider was used to encrypt the data with the `key1` encryption key.
+
+Cleanup:
+`kubectl delete secret kubernetes-the-hard-way`
 
 ## Deployments
 
@@ -66,65 +69,52 @@ kubectl get pods -l app=nginx
 > output
 
 ```
-NAME                     READY   STATUS    RESTARTS   AGE
-nginx-554b9c67f9-vt5rn   1/1     Running   0          10s
+NAME                    READY   STATUS    RESTARTS   AGE
+nginx-dbddb74b8-6lxg2   1/1     Running   0          10s
 ```
 
-### Port Forwarding
+### Services
 
 In this section you will verify the ability to access applications remotely using [port forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/).
+
+Create a service to expose deployment nginx on node ports.
+
+```
+kubectl expose deploy nginx --type=NodePort --port 80
+```
+
+
+```
+PORT_NUMBER=$(kubectl get svc -l app=nginx -o jsonpath="{.items[0].spec.ports[0].nodePort}")
+```
+
+Test to view NGINX page
+
+```
+curl http://worker-1:$PORT_NUMBER
+curl http://worker-2:$PORT_NUMBER
+```
+
+> output
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+ # Output Truncated for brevity
+<body>
+```
+
+### Logs
+
+In this section you will verify the ability to [retrieve container logs](https://kubernetes.io/docs/concepts/cluster-administration/logging/).
 
 Retrieve the full name of the `nginx` pod:
 
 ```
 POD_NAME=$(kubectl get pods -l app=nginx -o jsonpath="{.items[0].metadata.name}")
 ```
-
-Forward port `8080` on your local machine to port `80` of the `nginx` pod:
-
-```
-kubectl port-forward $POD_NAME 8080:80
-```
-
-> output
-
-```
-Forwarding from 127.0.0.1:8080 -> 80
-Forwarding from [::1]:8080 -> 80
-```
-
-In a new terminal make an HTTP request using the forwarding address:
-
-```
-curl --head http://127.0.0.1:8080
-```
-
-> output
-
-```
-HTTP/1.1 200 OK
-Server: nginx/1.17.3
-Date: Sat, 14 Sep 2019 21:10:11 GMT
-Content-Type: text/html
-Content-Length: 612
-Last-Modified: Tue, 13 Aug 2019 08:50:00 GMT
-Connection: keep-alive
-ETag: "5d5279b8-264"
-Accept-Ranges: bytes
-```
-
-Switch back to the previous terminal and stop the port forwarding to the `nginx` pod:
-
-```
-Forwarding from 127.0.0.1:8080 -> 80
-Forwarding from [::1]:8080 -> 80
-Handling connection for 8080
-^C
-```
-
-### Logs
-
-In this section you will verify the ability to [retrieve container logs](https://kubernetes.io/docs/concepts/cluster-administration/logging/).
 
 Print the `nginx` pod logs:
 
@@ -135,7 +125,8 @@ kubectl logs $POD_NAME
 > output
 
 ```
-127.0.0.1 - - [14/Sep/2019:21:10:11 +0000] "HEAD / HTTP/1.1" 200 0 "-" "curl/7.52.1" "-"
+10.32.0.1 - - [20/Mar/2019:10:08:30 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.58.0" "-"
+10.40.0.0 - - [20/Mar/2019:10:08:55 +0000] "GET / HTTP/1.1" 200 612 "-" "curl/7.58.0" "-"
 ```
 
 ### Exec
@@ -151,61 +142,7 @@ kubectl exec -ti $POD_NAME -- nginx -v
 > output
 
 ```
-nginx version: nginx/1.17.3
+nginx version: nginx/1.15.9
 ```
 
-## Services
-
-In this section you will verify the ability to expose applications using a [Service](https://kubernetes.io/docs/concepts/services-networking/service/).
-
-Expose the `nginx` deployment using a [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport) service:
-
-```
-kubectl expose deployment nginx --port 80 --type NodePort
-```
-
-> The LoadBalancer service type can not be used because your cluster is not configured with [cloud provider integration](https://kubernetes.io/docs/getting-started-guides/scratch/#cloud-provider). Setting up cloud provider integration is out of scope for this tutorial.
-
-Retrieve the node port assigned to the `nginx` service:
-
-```
-NODE_PORT=$(kubectl get svc nginx \
-  --output=jsonpath='{range .spec.ports[0]}{.nodePort}')
-```
-
-Create a firewall rule that allows remote access to the `nginx` node port:
-
-```
-gcloud compute firewall-rules create kubernetes-the-hard-way-allow-nginx-service \
-  --allow=tcp:${NODE_PORT} \
-  --network kubernetes-the-hard-way
-```
-
-Retrieve the external IP address of a worker instance:
-
-```
-EXTERNAL_IP=$(gcloud compute instances describe worker-0 \
-  --format 'value(networkInterfaces[0].accessConfigs[0].natIP)')
-```
-
-Make an HTTP request using the external IP address and the `nginx` node port:
-
-```
-curl -I http://${EXTERNAL_IP}:${NODE_PORT}
-```
-
-> output
-
-```
-HTTP/1.1 200 OK
-Server: nginx/1.17.3
-Date: Sat, 14 Sep 2019 21:12:35 GMT
-Content-Type: text/html
-Content-Length: 612
-Last-Modified: Tue, 13 Aug 2019 08:50:00 GMT
-Connection: keep-alive
-ETag: "5d5279b8-264"
-Accept-Ranges: bytes
-```
-
-Next: [Cleaning Up](14-cleanup.md)
+Next: [End to End Tests](16-e2e-tests.md)
