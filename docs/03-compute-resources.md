@@ -75,6 +75,20 @@ hostnamectl set-hostname master001
 
 ```
 ----------------------------------------------------------------------------------------------------------------------------
+**Static Lookup in Tables**
+```
+vim /etc/hosts
+
+```
+and add following lines below first line.
+
+```
+182.20.10.200   master001
+182.20.10.201   worker001
+182.20.10.202   worker002
+
+```
+
 
 
 
