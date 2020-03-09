@@ -4,7 +4,7 @@ In this lab you will bootstrap the Kubernetes control plane across 1 compute ins
 
 ## Prerequisites
 
-The commands in this lab must be run on : `master-1`
+The commands in this lab must be run on : `master001`
 
 ### Running commands in parallel with tmux
 
