@@ -77,7 +77,7 @@ Generate a kubeconfig file for the first worker node:
 }
 ```
 
-Results:
+Results
 
 ```
 worker-1.kubeconfig
