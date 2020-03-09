@@ -414,4 +414,4 @@ worker002   NotReady   <none>   93s   v1.13.0
 ```
 Note: It is OK for the worker node to be in a NotReady state. That is because we haven't configured Networking yet.
 
-Next: [Configuring Kubectl](11-configuring-kubectl.md)
+Next: [Deploy Pod Networking](12-configure-pod-networking.md)
