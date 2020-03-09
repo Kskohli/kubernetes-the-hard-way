@@ -11,6 +11,7 @@ I choose NAT(Network Address Translation) so that I can use Internet on Ubuntu V
 
 
 ## VM Operating System Requirements
+
 [Download](http://releases.ubuntu.com/16.04/ubuntu-16.04.6-server-amd64.iso) the ISO for Ubuntu 16.04.6 LTS.
 </br>Create it with above mentioned configuration & Install the OS with following settings:-
 * You need to disable any updates from CD as we will be using internet to update & upgrade the packages.
@@ -54,6 +55,7 @@ iface ens33 inet static
         # dns-* options are implemented by the resolvconf package, if installed
         dns-nameservers 8.8.8.8
 ```
+
 
 It has to be performed on VM2 **worker001**
 
