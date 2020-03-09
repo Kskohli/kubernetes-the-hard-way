@@ -1,60 +1,44 @@
-# Provisioning Pod Network Routes
+# Provisioning Pod Network
 
-Pods scheduled to a node receive an IP address from the node's Pod CIDR range. At this point pods can not communicate with other pods running on different nodes due to missing network [routes](https://cloud.google.com/compute/docs/vpc/routes).
+We chose to use CNI - [weave](https://www.weave.works/docs/net/latest/kubernetes/kube-addon/) as our networking option.
 
-In this lab you will create a route for each worker node that maps the node's Pod CIDR range to the node's internal IP address.
+### Install CNI plugins
 
-> There are [other ways](https://kubernetes.io/docs/concepts/cluster-administration/networking/#how-to-achieve-this) to implement the Kubernetes networking model.
+Download the CNI Plugins required for weave on each of the worker nodes - `worker001` and `worker002`
 
-## The Routing Table
+`wget https://github.com/containernetworking/plugins/releases/download/v0.7.5/cni-plugins-amd64-v0.7.5.tgz`
 
-In this section you will gather the information required to create routes in the `kubernetes-the-hard-way` VPC network.
+Extract it to /opt/cni/bin directory
 
-Print the internal IP address and Pod CIDR range for each worker instance:
+`sudo tar -xzvf cni-plugins-amd64-v0.7.5.tgz  --directory /opt/cni/bin/`
 
-```
-for instance in worker-0 worker-1 worker-2; do
-  gcloud compute instances describe ${instance} \
-    --format 'value[separator=" "](networkInterfaces[0].networkIP,metadata.items[0].value)'
-done
-```
+Reference: https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/#cni
 
-> output
+### Deploy Weave Network
 
-```
-10.240.0.20 10.200.0.0/24
-10.240.0.21 10.200.1.0/24
-10.240.0.22 10.200.2.0/24
-```
+Deploy weave network. Run only once on the `master001` node.
 
-## Routes
 
-Create network routes for each worker instance:
+`kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"`
+
+Weave uses POD CIDR of `10.32.0.0/12` by default.
+
+## Verification
+
+List the registered Kubernetes nodes from the master node:
 
 ```
-for i in 0 1 2; do
-  gcloud compute routes create kubernetes-route-10-200-${i}-0-24 \
-    --network kubernetes-the-hard-way \
-    --next-hop-address 10.240.0.2${i} \
-    --destination-range 10.200.${i}.0/24
-done
-```
-
-List the routes in the `kubernetes-the-hard-way` VPC network:
-
-```
-gcloud compute routes list --filter "network: kubernetes-the-hard-way"
+master001$ kubectl get pods -n kube-system
 ```
 
 > output
 
 ```
-NAME                            NETWORK                  DEST_RANGE     NEXT_HOP                  PRIORITY
-default-route-081879136902de56  kubernetes-the-hard-way  10.240.0.0/24  kubernetes-the-hard-way   1000
-default-route-55199a5aa126d7aa  kubernetes-the-hard-way  0.0.0.0/0      default-internet-gateway  1000
-kubernetes-route-10-200-0-0-24  kubernetes-the-hard-way  10.200.0.0/24  10.240.0.20               1000
-kubernetes-route-10-200-1-0-24  kubernetes-the-hard-way  10.200.1.0/24  10.240.0.21               1000
-kubernetes-route-10-200-2-0-24  kubernetes-the-hard-way  10.200.2.0/24  10.240.0.22               1000
+NAME              READY   STATUS    RESTARTS   AGE
+weave-net-58j2j   2/2     Running   0          89s
+weave-net-rr5dk   2/2     Running   0          89s
 ```
 
-Next: [Deploying the DNS Cluster Add-on](12-dns-addon.md)
+Reference: https://kubernetes.io/docs/tasks/administer-cluster/network-policy-provider/weave-network-policy/#install-the-weave-net-addon
+
+Next: [Kube API Server to Kubelet Connectivity](13-kube-apiserver-to-kubelet.md)
