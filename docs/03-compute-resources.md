@@ -88,12 +88,15 @@ and add following lines below first line.
 182.20.10.202   worker002
 
 ```
+----------------------------------------------------------------------------------------------------------------------------
+
+### Tasks to be performed on VM2:- worker001
 
 
+* **Static IP,Set Hostname & add /etc/hosts file with Hostname & IP** it could be done by using following:-
 
-
-It has to be performed on VM2 **worker001**
-
+----------------------------------------------------------------------------------------------------------------------------
+**STATIC IP Configuration**
 ```
 sudo vim /etc/network/interfaces
 # This file describes the network interfaces available on your system
@@ -116,8 +119,45 @@ iface ens33 inet static
         # dns-* options are implemented by the resolvconf package, if installed
         dns-nameservers 8.8.8.8
 ```
-It has to be performed on VM3 **worker002**
 
+As When we use NAT option for network adapter, it uses an internal default gateway which is first IP i.e 182.20.10.1 and External default gateway which is configured as a Static IP on VMnet Adapter in Windows(Workstation Machine).
+
+Post this restart Network service 
+
+
+```
+/etc/init.d/networking restart 
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+**Hostname in Ubuntu**
+```
+hostnamectl set-hostname worker001
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+**Static Lookup in Tables**
+```
+vim /etc/hosts
+
+```
+and add following lines below first line.
+
+```
+182.20.10.201   worker001
+182.20.10.200   master001
+182.20.10.202   worker002
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+
+
+### Tasks to be performed on VM3:- worker002
+
+* **Static IP,Set Hostname & add /etc/hosts file with Hostname & IP** it could be done by using following:-
+
+----------------------------------------------------------------------------------------------------------------------------
+**STATIC IP Configuration**
 ```
 sudo vim /etc/network/interfaces
 # This file describes the network interfaces available on your system
@@ -140,6 +180,38 @@ iface ens33 inet static
         # dns-* options are implemented by the resolvconf package, if installed
         dns-nameservers 8.8.8.8
 ```
+
+As When we use NAT option for network adapter, it uses an internal default gateway which is first IP i.e 182.20.10.1 and External default gateway which is configured as a Static IP on VMnet Adapter in Windows(Workstation Machine).
+
+Post this restart Network service 
+
+
+```
+/etc/init.d/networking restart 
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+**Hostname in Ubuntu**
+```
+hostnamectl set-hostname worker002
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+**Static Lookup in Tables**
+```
+vim /etc/hosts
+
+```
+and add following lines below first line.
+
+```
+182.20.10.202   worker002
+182.20.10.200   master001
+182.20.10.201   worker001
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+
 
 
 
