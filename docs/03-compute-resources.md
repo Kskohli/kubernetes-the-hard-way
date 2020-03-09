@@ -4,8 +4,8 @@ Kubernetes requires a set of machines to host the Kubernetes control plane and t
 
 Created 3 VMs for this simple deployment.
 </br> VM1 named master001, CPU-2, MEMORY-2GB, HDD-20GB, NETWORK-NAT
-</br> VM2 named worker001  CPU-1, MEMORY-1GB, HDD-20GB, NETWORK-NAT
-</br> VM3 named worker002  CPU-1, MEMORY-1GB, HDD-20GB, NETWORK-NAT
+</br> VM2 named worker001, CPU-1, MEMORY-1GB, HDD-20GB, NETWORK-NAT
+</br> VM3 named worker002, CPU-1, MEMORY-1GB, HDD-20GB, NETWORK-NAT
 
 I choose NAT(Network Address Translation) so that I can use Internet on Ubuntu Virtual Machines as well as I connect to them using SSH from the same machine where workstation is installed.
 
