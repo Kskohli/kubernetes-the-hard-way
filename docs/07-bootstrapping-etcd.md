@@ -20,15 +20,15 @@ Download the official etcd release binaries from the [etcd](https://github.com/e
 
 ```
 wget -q --show-progress --https-only --timestamping \
-  "https://github.com/etcd-io/etcd/releases/download/v3.4.0/etcd-v3.4.0-linux-amd64.tar.gz"
+  "https://github.com/coreos/etcd/releases/download/v3.3.9/etcd-v3.3.9-linux-amd64.tar.gz"
 ```
 
 Extract and install the `etcd` server and the `etcdctl` command line utility:
 
 ```
 {
-  tar -xvf etcd-v3.4.0-linux-amd64.tar.gz
-  sudo mv etcd-v3.4.0-linux-amd64/etcd* /usr/local/bin/
+  tar -xvf etcd-v3.3.9-linux-amd64.tar.gz
+  sudo mv etcd-v3.3.9-linux-amd64/etcd* /usr/local/bin/
 }
 ```
 
@@ -37,7 +37,7 @@ Extract and install the `etcd` server and the `etcdctl` command line utility:
 ```
 {
   sudo mkdir -p /etc/etcd /var/lib/etcd
-  sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/
+  sudo cp ca.crt etcd-server.key etcd-server.crt /etc/etcd/
 }
 ```
 
