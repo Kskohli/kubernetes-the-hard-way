@@ -30,7 +30,7 @@ It will be good you have a multi-terminal utility such as [hyper.is](https://hyp
 
 
 
-
+Next: [Installing the Client Tools](02-client-tools.md)
 
 
 
