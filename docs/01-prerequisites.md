@@ -1,4 +1,4 @@
-# Prerequisitess
+# Prerequisites
 
 
 ## VM Hardware Requirements
