@@ -18,7 +18,7 @@ I choose NAT(Network Address Translation) so that I can use Internet on Ubuntu V
 ```
 nano /etc/apt/sources.list  
 ```
-and comment(#) on line number 1. Where cdrom is mentioned.
+and comment(#) on line number 1. Where cdrom is mentioned, to be done on all VMs.
 
 * It needs SWAP to be disabled for which is better explained by [@FrankDenneman in his post](https://frankdenneman.nl/2018/11/15/kubernetes-swap-and-the-vmware-balloon-driver/).
 You can check the status of Swap File/Partition in OS by running **free -h** command and disable post that.
@@ -28,11 +28,14 @@ swapoff -a
 
 vim /etc/fstab  
 ```
-and comment(#) on line number 10, where swapfile/swap partition/swap word is mentioned. 
+and comment(#) on line number 10, where swapfile/swap partition/swap word is mentioned. To be performed on all VMs.
 
-* After this we need static IP for Our Machines, it could be done at the time of installation or could be done by editing a file:-
-It has to be performed on VM1 **master001**
+### Tasks to be performed on VM1:- master001
 
+* **Static IP,Set Hostname & add /etc/hosts file with Hostname & IP** it could be done by using following:-
+
+----------------------------------------------------------------------------------------------------------------------------
+**STATIC IP Configuration**
 ```
 sudo vim /etc/network/interfaces
 # This file describes the network interfaces available on your system
@@ -55,6 +58,24 @@ iface ens33 inet static
         # dns-* options are implemented by the resolvconf package, if installed
         dns-nameservers 8.8.8.8
 ```
+
+As When we use NAT option for network adapter, it uses an internal default gateway which is first IP i.e 182.20.10.1 and External default gateway which is configured as a Static IP on VMnet Adapter in Windows(Workstation Machine).
+
+Post this restart Network service 
+
+
+```
+/etc/init.d/networking restart 
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+**Hostname in Ubuntu**
+```
+hostnamectl set-hostname master001
+
+```
+----------------------------------------------------------------------------------------------------------------------------
+
 
 
 It has to be performed on VM2 **worker001**
@@ -122,9 +143,6 @@ In this section a dedicated [Virtual Private Cloud](https://cloud.google.com/com
 
 Create the `kubernetes-the-hard-way` custom VPC network:
 
-```
-gcloud compute networks create kubernetes-the-hard-way --subnet-mode custom
-```
 
 A [subnet](https://cloud.google.com/compute/docs/vpc/#vpc_networks_and_subnets) must be provisioned with an IP address range large enough to assign a private IP address to each node in the Kubernetes cluster.
 
